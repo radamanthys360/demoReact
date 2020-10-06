@@ -1,0 +1,18 @@
+.inline-errormsg {
+    color: red;
+    font-size: 12px;
+  }
+
+  .inline-notvalid {
+    color: orange;
+    font-size: 12px;
+  }
+
+  .inline-notclave {
+    color: rgb(0, 255, 42);
+    font-size: 12px;
+  }
+
+.hideDiv{
+    display:none;
+}

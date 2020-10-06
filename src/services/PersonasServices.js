@@ -1,28 +1,36 @@
-/* import axios from 'axios';
+ import axios from 'axios';
 
 const PERSONAS_API_BASE_URL = "http://localhost:8080/demoTaringa/api/personas";
 
+// otros metodos
+const FIND_BY_USUARIO = "/findByUsuario";
+
 class PersonasService {
 
-    getEmployees(){
+    async getFindByUsuario(nombreUsuario){
+        return axios.get(PERSONAS_API_BASE_URL + FIND_BY_USUARIO 
+            +  '/' + nombreUsuario);
+    }
+
+    getAll(){
         return axios.get(PERSONAS_API_BASE_URL);
     }
 
-    createEmployee(personas){
+    create(personas){
         return axios.post(PERSONAS_API_BASE_URL, personas);
     }
 
-    getEmployeeById(personasId){
+    getById(personasId){
         return axios.get(PERSONAS_API_BASE_URL + '/' + personasId);
     }
 
-    updateEmployee(personas, personasId){
+    update(personas, personasId){
         return axios.put(PERSONAS_API_BASE_URL + '/' + personasId, personas);
     }
 
-    deleteEmployee(personasId){
+    delete(personasId){
         return axios.delete(PERSONAS_API_BASE_URL + '/' + personasId);
     }
 }
 
-export default new PersonasService() */
+export default new PersonasService() 
