@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PersonasService from '../services/PersonasServices'
 import AlertErrorComponent from '../Componentes/AlertErrorComponent'
 import "../Componentes/PersonasAddEdit.css";
+import * as moment from 'moment'
 
 class PersnasAddEditComponent extends Component {
 
@@ -73,25 +74,48 @@ class PersnasAddEditComponent extends Component {
         if (this.state.nombre === "") {
             errors.push("nombre");
         }
+        if (this.state.nombre.length <= 3) {
+            errors.push("nombre");
+        }
+
         if (this.state.direccion === "") {
             errors.push("direccion");
         }
+        if (this.state.direccion.length <= 1) {
+            errors.push("direccion");
+        }
+
         if (this.state.documentoIdentidad === "") {
             errors.push("documentoIdentidad");
         }
+        if (this.state.documentoIdentidad.length < 12) {
+            errors.push("documentoIdentidad");
+        }
+
         if (this.state.fechaNacimiento === "") {
             errors.push("fechaNacimiento");
         }
+
         if (this.state.clave === "") {
             errors.push("clave");
         }
+        if (this.state.clave.length <= 6) {
+            errors.push("clave");
+        }
+
         if (this.state.clave2 === "") {
+            errors.push("clave2");
+        }
+        if (this.state.clave2.length <= 6) {
             errors.push("clave2");
         }
         if (this.state.sexo === "" || this.state.sexo === "NA") {
             errors.push("sexo");
         }
         if (this.state.usuario === "") {
+            errors.push("usuario");
+        }
+        if (this.state.usuario.length <= 3) {
             errors.push("usuario");
         }
         if (this.state.clave !== this.state.clave2) {
@@ -146,15 +170,20 @@ class PersnasAddEditComponent extends Component {
                         nombre: this.state.nombre,
                         direccion: this.state.direccion,
                         documentoIdentidad: this.state.documentoIdentidad,
-                        fechaNacimiento: this.state.fechaNacimiento,
+                        fechaNacimiento: moment(this.state.fechaNacimiento).format("DD-MM-YYYY"),
                         sexo: this.state.sexo,
                         usuario: this.state.usuario,
                         clave: this.state.clave,
                     };
-
+                    console.log('personas => ' + JSON.stringify(personas));
                     if (this.state.id === '_add') {
                         PersonasService.create(personas).then(res => {
                             this.props.history.push('/personas/_0');
+                        }).catch(err => {
+                            this.setState({
+                                hasError: true,
+                                errorMessage: err.message
+                            });
                         });
                     } else {
                         //para actualizar
@@ -194,7 +223,7 @@ class PersnasAddEditComponent extends Component {
                                                                                         : "form-control" }/>
                                                 <div
                                                   className={this.hasError("nombre") ? "inline-errormsg" : "hideDiv"}>
-                                                     Por favor ingresa un valor.
+                                                     Por favor ingresa un valor valido.
                                                 </div>
                                         </div>
 
@@ -206,7 +235,7 @@ class PersnasAddEditComponent extends Component {
                                                 : "form-control" }/>
                                                 <div
                                                   className={this.hasError("direccion") ? "inline-errormsg" : "hideDiv"}>
-                                                     Por favor ingresa un valor.
+                                                     Por favor ingresa un valor valido.
                                                 </div>
                                         </div>
 
@@ -218,7 +247,7 @@ class PersnasAddEditComponent extends Component {
                                                 : "form-control" }/>
                                                 <div
                                                   className={this.hasError("documentoIdentidad") ? "inline-errormsg" : "hideDiv"}>
-                                                     Por favor ingresa un valor.
+                                                     Por favor ingresa un valor valido.
                                                 </div>
                                         </div>
 
@@ -230,7 +259,7 @@ class PersnasAddEditComponent extends Component {
                                                 : "form-control" }/>
                                                 <div
                                                   className={this.hasError("fechaNacimiento") ? "inline-errormsg" : "hideDiv"}>
-                                                     Por favor ingresa un valor.
+                                                     Por favor ingresa un valor valido.
                                                 </div>
                                         </div>
 
@@ -256,7 +285,7 @@ class PersnasAddEditComponent extends Component {
                                                 className={this.getClassUsuario()}/>
                                                 <div
                                                   className={this.hasError("usuario") ? "inline-errormsg" : "hideDiv"}>
-                                                     Por favor ingresa un valor.
+                                                     Por favor ingresa un valor valido.
                                                 </div>
                                                 <div
                                                   className={this.hasError("usuarioV") ? "inline-notvalid " : "hideDiv"}>
@@ -271,14 +300,14 @@ class PersnasAddEditComponent extends Component {
                                                 className={this.getClassClave()}/>
                                                 <div
                                                   className={this.hasError("clave") ? "inline-errormsg" : "hideDiv"}>
-                                                     Por favor ingresa un valor.
+                                                     Por favor ingresa un valor valido.
                                                 </div>
                                                 <div
                                                   className={this.hasError("claveV") ? "inline-notclave" : "hideDiv"}>
                                                      Las claves no coinciden.
                                                 </div>
                                                 <small id="passwordHelpInline" class="text-muted">
-                                                    Debe de contener minimo 8 y maximo 20 caracteres.
+                                                    Debe de contener minimo 6 y maximo 20 caracteres.
                                                 </small>
                                         </div>
 
@@ -289,14 +318,14 @@ class PersnasAddEditComponent extends Component {
                                                 className={this.getClassClave()}/>
                                                 <div
                                                   className={this.hasError("clave2") ? "inline-errormsg" : "hideDiv"}>
-                                                     Por favor ingresa un valor.
+                                                     Por favor ingresa un valor valido.
                                                 </div>
                                                 <div
                                                   className={this.hasError("claveV") ? "inline-notclave" : "hideDiv"}>
                                                      Las claves no coinciden.
                                                 </div>
                                                 <small id="passwordHelpInline" class="text-muted">
-                                                    Debe de contener minimo 8 y maximo 20 caracteres.
+                                                    Debe de contener minimo 6 y maximo 20 caracteres.
                                                 </small>
                                         </div>
 

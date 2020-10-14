@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 //import EmployeeService from '../services/PersonasServices'
 import AlertConfirmComponent from '../Componentes/AlertConfirmComponent'
+import PersonasTable from '../Componentes/PersonasTable'
 
 
 class PersonaIniComponent extends Component {
@@ -40,6 +41,7 @@ class PersonaIniComponent extends Component {
                     <button className="btn btn-success" onClick={this.addPersona}> Agregar</button>
                  </div>
                  <br></br>
+                 <PersonasTable /> 
             </div>
         )
     }

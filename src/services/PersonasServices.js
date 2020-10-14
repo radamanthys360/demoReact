@@ -12,6 +12,16 @@ class PersonasService {
             +  '/' + nombreUsuario);
     }
 
+    getAllPageable(page,size){
+        let pageable = "pageable?page="+page+'&size='+size
+        return axios.get(PERSONAS_API_BASE_URL+ '/' + pageable);
+    }
+    
+    getFindAllText(page,size,texto){
+        let pageable = "pageable?page="+page+'&size='+size
+        return axios.get(PERSONAS_API_BASE_URL+ '/' +texto+ '/' + pageable);
+    } 
+
     getAll(){
         return axios.get(PERSONAS_API_BASE_URL);
     }
