@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PersonasService from '../services/PersonasServices'
 import * as moment from 'moment'
+import { withRouter } from "react-router-dom";
 
 class PersonaTableComponent extends Component {
 
@@ -20,6 +21,7 @@ class PersonaTableComponent extends Component {
         this.paginationNav = this.paginationNav.bind(this);
         this.busquedaTexto = this.busquedaTexto.bind(this);
         this.limpiarBusqueda = this.limpiarBusqueda.bind(this);
+        this.editPersona = this.editPersona.bind(this);
     }
 
     componentDidMount(){
@@ -100,6 +102,10 @@ class PersonaTableComponent extends Component {
         this.setState({[e.target.name]:e.target.value})
     }
 
+    editPersona(id){
+        this.props.history.push(`/add-personas/${id}`);
+    }
+
     render() {
         return (
             <div>
@@ -122,6 +128,7 @@ class PersonaTableComponent extends Component {
                                     <th scope="col"> Fecha Nacimiento</th>
                                     <th scope="col"> Genero</th>
                                     <th scope="col"> Usuario</th>
+                                    <th scope="col"> Modificar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -135,6 +142,9 @@ class PersonaTableComponent extends Component {
                                              <td> {moment(persona.fechaNacimiento).format("DD-MM-YYYY")}</td>
                                              <td> {persona.sexo}</td>
                                              <td> {persona.usuario}</td>
+                                             <td>
+                                              <button onClick={ () => this.editPersona(persona.id)} className="btn btn-success">Modificar</button>
+                                             </td>
                                         </tr>
                                     )
                                 }
@@ -157,4 +167,4 @@ class PersonaTableComponent extends Component {
     }
 }
 
-export default PersonaTableComponent
+export default withRouter(PersonaTableComponent)

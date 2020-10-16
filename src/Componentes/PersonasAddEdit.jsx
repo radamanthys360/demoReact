@@ -32,7 +32,21 @@ class PersnasAddEditComponent extends Component {
         if(this.state.id === '_add'){
             return
         }else{
+            //console.log("id que recibo "+this.state.id)
            // cuando se modifique
+            PersonasService.getById(this.state.id).then( (res) =>{
+            let persona = res.data;
+            this.setState({
+                nombre: persona.nombre,
+                direccion: persona.direccion,
+                documentoIdentidad: persona.documentoIdentidad,
+                fechaNacimiento: persona.fechaNacimiento,
+                sexo: persona.sexo,
+                usuario: persona.usuario,
+                clave: persona.clave,
+                clave2: persona.clave
+            });
+          });
         }        
     }
 
@@ -56,7 +70,7 @@ class PersnasAddEditComponent extends Component {
         if(this.state.id === '_add'){
             return <h3 className="text-center">Agregar</h3>
         }else{
-          // para actualizar
+            return <h3 className="text-center">Actualizar</h3>
         }
     }
 
@@ -159,45 +173,76 @@ class PersnasAddEditComponent extends Component {
             return false;
         } else {
             var errors = [];
-            PersonasService.getFindByUsuario(this.state.usuario).then((res) => {
-                if(res.data) {
-                    errors.push("usuarioV");
-                    this.setState({
-                        errors: errors
-                    });
-                }else{
-                    let personas = {
-                        nombre: this.state.nombre,
-                        direccion: this.state.direccion,
-                        documentoIdentidad: this.state.documentoIdentidad,
-                        fechaNacimiento: moment(this.state.fechaNacimiento).format("DD-MM-YYYY"),
-                        sexo: this.state.sexo,
-                        usuario: this.state.usuario,
-                        clave: this.state.clave,
-                    };
-                    console.log('personas => ' + JSON.stringify(personas));
-                    if (this.state.id === '_add') {
-                        PersonasService.create(personas).then(res => {
-                            this.props.history.push('/personas/_0');
-                        }).catch(err => {
-                            this.setState({
-                                hasError: true,
-                                errorMessage: err.message
-                            });
+            if (this.state.id === '_add') {
+                PersonasService.getFindByUsuario(this.state.usuario,-1).then((res) => {
+                    if(res.data) {
+                        errors.push("usuarioV");
+                        this.setState({
+                            errors: errors
                         });
-                    } else {
-                        //para actualizar
-                    }
-                } 
-            }).catch(err => {
-                this.setState({
-                    hasError: true,
-                    errorMessage: err.message
+                    }else{
+                        let personas = {
+                            nombre: this.state.nombre,
+                            direccion: this.state.direccion,
+                            documentoIdentidad: this.state.documentoIdentidad,
+                            fechaNacimiento: moment(this.state.fechaNacimiento).format("DD-MM-YYYY"),
+                            sexo: this.state.sexo,
+                            usuario: this.state.usuario,
+                            clave: this.state.clave,
+                        };
+                        //console.log('personas => ' + JSON.stringify(personas));
+                            PersonasService.create(personas).then(res => {
+                                this.props.history.push('/personas/_0');
+                            }).catch(err => {
+                                this.setState({
+                                    hasError: true,
+                                    errorMessage: err.message
+                                });
+                        });
+                    } 
+                }).catch(err => {
+                    this.setState({
+                        hasError: true,
+                        errorMessage: err.message
+                    });
                 });
-            });
-
+            }else{
+                //modificar
+                PersonasService.getFindByUsuario(this.state.usuario,this.state.id).then((res) => {
+                    if(res.data) {
+                        errors.push("usuarioV");
+                        this.setState({
+                            errors: errors
+                        });
+                    }else{
+                        let personas = {
+                            id : this.state.id,
+                            nombre: this.state.nombre,
+                            direccion: this.state.direccion,
+                            documentoIdentidad: this.state.documentoIdentidad,
+                            fechaNacimiento: moment(this.state.fechaNacimiento).format("DD-MM-YYYY"),
+                            sexo: this.state.sexo,
+                            usuario: this.state.usuario,
+                            clave: this.state.clave,
+                        };
+                           //console.log('personas => ' + JSON.stringify(personas));
+                            PersonasService.update(personas).then(res => {
+                                this.props.history.push('/personas/_0');
+                            }).catch(err => {
+                                this.setState({
+                                    hasError: true,
+                                    errorMessage: err.message
+                                });
+                        });
+                    } 
+                }).catch(err => {
+                    this.setState({
+                        hasError: true,
+                        errorMessage: err.message
+                    });
+                });
+            }
         }
-
     }
 
     render() {

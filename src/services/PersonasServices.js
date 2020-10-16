@@ -7,9 +7,9 @@ const FIND_BY_USUARIO = "/findByUsuario";
 
 class PersonasService {
 
-    async getFindByUsuario(nombreUsuario){
+    async getFindByUsuario(nombreUsuario,id){
         return axios.get(PERSONAS_API_BASE_URL + FIND_BY_USUARIO 
-            +  '/' + nombreUsuario);
+            +  '/' + nombreUsuario+  '/' + id);
     }
 
     getAllPageable(page,size){
@@ -34,8 +34,8 @@ class PersonasService {
         return axios.get(PERSONAS_API_BASE_URL + '/' + personasId);
     }
 
-    update(personas, personasId){
-        return axios.put(PERSONAS_API_BASE_URL + '/' + personasId, personas);
+    update(personas){
+        return axios.put(PERSONAS_API_BASE_URL, personas);
     }
 
     delete(personasId){
